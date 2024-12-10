@@ -36,7 +36,7 @@ export default function Page() {
 				</Card>
 				<Card>
 					<CardHeader>
-						<CardTitle>Active Sessions</CardTitle>
+						<CardTitle>Active Session</CardTitle>
 					</CardHeader>
 					<CardContent>
 						{userLoading && <Loader2 className='animate-spin' />}
