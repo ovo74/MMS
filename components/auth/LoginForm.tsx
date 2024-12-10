@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
-import { authenticateUser, updateUserStatus } from '@/services/auth';
+import { authenticateUser, updateUserStatus } from '@/hooks/auth';
 import { Input } from '../ui/input';
 import { PasswordInput } from '../ui/password-input';
 import { Button } from '../ui/button';

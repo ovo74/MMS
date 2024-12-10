@@ -16,6 +16,7 @@ export default function DashboardPage() {
 		}
 	}, [user, isAdmin]);
 
+	// Khi người dùng đóng tab hoặc tắt trình duyệt
 	useEffect(() => {
 		if (!user) return;
 		const onCloseTab = async () => {
