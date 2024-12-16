@@ -111,6 +111,7 @@ export default function UserManagement() {
 				setDeletingUser(null);
 				toast.success('Delete Successful!')
 			} catch (error) {
+				console.log(error)
 				toast.error('Delete Error!')
 
 			}
