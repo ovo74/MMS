@@ -51,7 +51,7 @@ import toast from 'react-hot-toast';
 type UserFormData = z.infer<typeof userSchema>;
 
 export default function UserManagement() {
-	const { users, loading, error, addUser, updateUser, deleteUser } =
+	const { users, loading, addUser, updateUser, deleteUser } =
 		useFirebaseUsers();
 	const [isAddUserOpen, setIsAddUserOpen] = useState(false);
 	const [editingUser, setEditingUser] = useState<Partial<UserFormData> | null>(
