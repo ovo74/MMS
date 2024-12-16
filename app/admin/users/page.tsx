@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFirebaseUsers } from '@/hooks/useFirebaseUsers';
 import { userSchema } from '@/lib/schemas';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
 	Table,
@@ -69,7 +69,7 @@ export default function UserManagement() {
 	});
 
 	if (loading) return <div>Loading...</div>;
-	if (error) return <div>Error: {error}</div>;
+	// if (error) return <div>Error: {error}</div>;
 
 	const onSubmit = async (data: UserFormData) => {
 		setIsSubmitting(true);
@@ -78,16 +78,22 @@ export default function UserManagement() {
 				await updateUser(editingUser.id!, data);
 				setEditingUser(null);
 			} else {
-				await addUser({
+				const res = await addUser({
 					username: data.username,
 					password: data.password,
 				});
+				if (!res) {
+					throw new Error()
+				}
+
 				setIsAddUserOpen(false);
 				form.reset();
 			}
+			toast.success(`${editingUser ? 'Update' : 'Create'} user sucessfull !`);
+
 		} catch (error) {
 			console.error(error);
-			toast.error('Failed to update user');
+			toast.error(`Failed to ${editingUser ? 'Update' : 'Create'} user`);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -98,10 +104,17 @@ export default function UserManagement() {
 		form.reset(user);
 	};
 
-	const confirmDelete = () => {
+	const confirmDelete = async () => {
 		if (deletingUser) {
-			deleteUser(deletingUser);
-			setDeletingUser(null);
+			try {
+				await deleteUser(deletingUser);
+				setDeletingUser(null);
+				toast.success('Delete Successful!')
+			} catch (error) {
+				toast.error('Delete Error!')
+
+			}
+
 		}
 	};
 
@@ -118,7 +131,9 @@ export default function UserManagement() {
 			>
 				<div className='flex justify-end'>
 					<DialogTrigger asChild>
-						<Button>
+						<Button onClick={() => {
+							toast.success('he')
+						}}>
 							<Plus className='size-4' />
 							Add User
 						</Button>
@@ -191,7 +206,7 @@ export default function UserManagement() {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction onClick={confirmDelete}>
+						<AlertDialogAction onClick={confirmDelete} className={buttonVariants({ variant: 'destructive' })}>
 							Delete
 						</AlertDialogAction>
 					</AlertDialogFooter>
@@ -227,7 +242,7 @@ export default function UserManagement() {
 									<Button
 										variant='ghost'
 										size='icon'
-										onClick={() => deleteUser(user.id!)}
+										onClick={() => setDeletingUser(user.id!)}
 									>
 										<Trash className='size -4' />
 									</Button>

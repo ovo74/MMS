@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from './button';
 import {
 	CldUploadWidget,
@@ -22,7 +24,7 @@ export const Uploader = ({ onUpload, options }: Props) => {
 		maxFiles: 1,
 		multiple: false,
 		singleUploadAutoClose: true,
-		showPoweredBy: false,
+		// showPoweredBy: false,
 		styles: {
 			zIndex: 9999,
 		},
@@ -45,7 +47,6 @@ export const Uploader = ({ onUpload, options }: Props) => {
 				{({ open }) => {
 					function handleOnClick(e: any) {
 						e.preventDefault();
-						// if (setState) setState(false);
 						open();
 					}
 					return (

@@ -6,6 +6,8 @@ import {
 	deleteDoc,
 	doc,
 	getDocs,
+	query,
+	where,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { User } from '@/types';
@@ -39,11 +41,24 @@ export function useFirebaseUsers() {
 
 	const addUser = async (user: { username: string; password: string }) => {
 		try {
+			const userQuery = query(
+				collection(db, 'users'),
+				where('username', '==', user.username),
+			
+			);
+			const userSnapshot = await getDocs(userQuery);
+				if(!userSnapshot.empty){
+					setError('User existed !')
+					return false
+				}
+
+
 			const docRef = await addDoc(collection(db, 'users'), user);
 			setUsers([
 				...users,
 				{ ...user, status: 'disconnect', mediaPlaying: [], id: docRef.id },
 			]);
+			return true
 		} catch (err) {
 			console.log(err);
 
