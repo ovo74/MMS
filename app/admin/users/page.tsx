@@ -113,7 +113,6 @@ export default function UserManagement() {
 			} catch (error) {
 				console.log(error)
 				toast.error('Delete Error!')
-
 			}
 
 		}
@@ -133,7 +132,7 @@ export default function UserManagement() {
 				<div className='flex justify-end'>
 					<DialogTrigger asChild>
 						<Button onClick={() => {
-							toast.success('he')
+							toast.success('Fill new user information')
 						}}>
 							<Plus className='size-4' />
 							Add User
