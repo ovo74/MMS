@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useFirebaseUsers } from '@/hooks/useFirebaseUsers';
 import { userSchema } from '@/lib/schemas';
 import { Button, buttonVariants } from '@/components/ui/button';
+import Marquee from 'react-fast-marquee';
 import { Input } from '@/components/ui/input';
 import {
 	Table,
@@ -47,6 +48,7 @@ import { Loader2, Pencil, Plus, Trash } from 'lucide-react';
 import { z } from 'zod';
 import { PasswordInput } from '@/components/ui/password-input';
 import toast from 'react-hot-toast';
+import StatusRender from '@/components/admin/status-render';
 
 type UserFormData = z.infer<typeof userSchema>;
 
@@ -83,14 +85,13 @@ export default function UserManagement() {
 					password: data.password,
 				});
 				if (!res) {
-					throw new Error()
+					throw new Error();
 				}
 
 				setIsAddUserOpen(false);
 				form.reset();
 			}
 			toast.success(`${editingUser ? 'Update' : 'Create'} user sucessfull !`);
-
 		} catch (error) {
 			console.error(error);
 			toast.error(`Failed to ${editingUser ? 'Update' : 'Create'} user`);
@@ -109,12 +110,11 @@ export default function UserManagement() {
 			try {
 				await deleteUser(deletingUser);
 				setDeletingUser(null);
-				toast.success('Delete Successful!')
+				toast.success('Delete Successful!');
 			} catch (error) {
-				console.log(error)
-				toast.error('Delete Error!')
+				console.log(error);
+				toast.error('Delete Error!');
 			}
-
 		}
 	};
 
@@ -131,9 +131,11 @@ export default function UserManagement() {
 			>
 				<div className='flex justify-end'>
 					<DialogTrigger asChild>
-						<Button onClick={() => {
-							toast.success('Fill new user information')
-						}}>
+						<Button
+							onClick={() => {
+								toast.success('Fill new user information');
+							}}
+						>
 							<Plus className='size-4' />
 							Add User
 						</Button>
@@ -153,6 +155,19 @@ export default function UserManagement() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Username</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name='location'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Location</FormLabel>
 										<FormControl>
 											<Input {...field} />
 										</FormControl>
@@ -206,7 +221,10 @@ export default function UserManagement() {
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction onClick={confirmDelete} className={buttonVariants({ variant: 'destructive' })}>
+						<AlertDialogAction
+							onClick={confirmDelete}
+							className={buttonVariants({ variant: 'destructive' })}
+						>
 							Delete
 						</AlertDialogAction>
 					</AlertDialogFooter>
@@ -218,6 +236,9 @@ export default function UserManagement() {
 					<TableRow>
 						<TableHead className='w-[50px] text-center'>#</TableHead>
 						<TableHead className='text-center'>Username</TableHead>
+						<TableHead className='text-center'>Status</TableHead>
+						<TableHead className='text-center'>Media Playing</TableHead>
+						<TableHead className='text-center'>Location</TableHead>
 						<TableHead className='text-center'>Password</TableHead>
 						<TableHead className='w-[100px] text-center'>Actions</TableHead>
 					</TableRow>
@@ -227,6 +248,17 @@ export default function UserManagement() {
 						<TableRow key={user.id}>
 							<TableCell className='text-center'>{index + 1}</TableCell>
 							<TableCell className='text-center'>{user.username}</TableCell>
+							<TableCell className='text-center'>
+								<StatusRender status={user.status} />
+							</TableCell>
+							<TableCell className='text-center w-[200px]'>
+								{user.mediaPlaying && user.mediaPlaying.length > 0 && (
+									<Marquee>{user.mediaPlaying.map(media => media.name).join(', ')}</Marquee>
+								)}
+							</TableCell>
+							<TableCell className='text-center'>
+								{user.location ?? ''}
+							</TableCell>
 							<TableCell className='flex justify-center items-center'>
 								<PasswordColumn text={user.password!} />
 							</TableCell>

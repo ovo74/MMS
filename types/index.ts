@@ -4,9 +4,11 @@ export interface User {
 	password?: string;
 	mediaPlaying?: UserMedia[];
 	status: 'playing' | 'disconnect';
+	location?: string
 }
 
 export type UserMedia = {
+	name: string
 	type: 'image' | 'video' | 'youtube';
 	url: string;
 };
@@ -21,5 +23,5 @@ export interface Media {
 	id: string;
 	url: string;
 	name: string;
-	type: 'image' | 'video';
+	type: 'image' | 'video' | 'youtube';
 }

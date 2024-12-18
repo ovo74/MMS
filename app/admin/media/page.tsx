@@ -351,10 +351,7 @@ export default function MediaManagement() {
 									<TableCell className='text-center'>{index + 1}</TableCell>
 									<TableCell
 										onClick={() => {
-											setLightBox({
-												type: item.type,
-												url: item.url,
-											});
+											setLightBox(item);
 										}}
 										className='hover:cursor-pointer'
 									>

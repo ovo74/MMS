@@ -43,22 +43,20 @@ export function useFirebaseUsers() {
 		try {
 			const userQuery = query(
 				collection(db, 'users'),
-				where('username', '==', user.username),
-			
+				where('username', '==', user.username)
 			);
 			const userSnapshot = await getDocs(userQuery);
-				if(!userSnapshot.empty){
-					setError('User existed !')
-					return false
-				}
-
+			if (!userSnapshot.empty) {
+				setError('User existed !');
+				return false;
+			}
 
 			const docRef = await addDoc(collection(db, 'users'), user);
 			setUsers([
 				...users,
 				{ ...user, status: 'disconnect', mediaPlaying: [], id: docRef.id },
 			]);
-			return true
+			return true;
 		} catch (err) {
 			console.log(err);
 
@@ -90,7 +88,7 @@ export function useFirebaseUsers() {
 
 	const mutateUSer = async () => {
 		const data = await fetchUsers();
-		return data
+		return data;
 	};
 
 	return { users, loading, error, addUser, updateUser, deleteUser, mutateUSer };

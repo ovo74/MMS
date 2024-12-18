@@ -29,6 +29,7 @@ export default function MediaList() {
 			const mediaData: UserMedia[] = (
 				querySnapshot.docs[0].data().mediaPlaying as UserMedia[]
 			).map((item) => ({
+				name: item.name,
 				type: item.type,
 				url: item.url,
 			}));

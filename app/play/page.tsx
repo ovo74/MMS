@@ -24,7 +24,9 @@ export default function DashboardPage() {
 				status: 'disconnect',
 			});
 		};
-
+		
+		const elem = document.documentElement;
+		if (elem) elem?.requestFullscreen();
 		window.addEventListener('beforeunload', onCloseTab);
 
 		return () => window.removeEventListener('beforeunload', onCloseTab);

@@ -119,6 +119,7 @@ export default function Page() {
 									)}
 								</div>
 								<h3 className='font-semibold'>{user.username}</h3>
+								{user.mediaPlaying && user.mediaPlaying.length > 0 && <p className='text-muted-foreground'>Assigned media: {user.mediaPlaying.length}</p>}
 								<Badge
 									className={cn({
 										'bg-green-300 text-green-800 hover:bg-green-300':
