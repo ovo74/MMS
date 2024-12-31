@@ -83,6 +83,7 @@ export default function UserManagement() {
 				const res = await addUser({
 					username: data.username,
 					password: data.password,
+					location: data.location??' '
 				});
 				if (!res) {
 					throw new Error();
