@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { Button } from '../ui/button';
 import YoutubeEmbed from '../admin/light-box/YoutubeEmbed';
 import { getYoutubeID } from '@/lib/utils';
-import { comment } from 'postcss';
 
 // see https://stackoverflow.com/questions/3354239/hiding-the-mouse-cursor-when-idle-using-javascript
 // if want to hide cursor when idle
@@ -23,7 +22,7 @@ export default function MediaViewer({
 
 	useEffect(() => {
 		let timeOut:NodeJS.Timeout;
-		// @ts-ignore
+		// @ts-expect-error asd
 		if (media.type === 'video' || media.type === 'youtube') return clearTimeout(timeOut);
 
 		timeOut = setTimeout(() => {
