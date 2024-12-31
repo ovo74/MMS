@@ -39,7 +39,7 @@ export function useFirebaseUsers() {
 		fetchUsers();
 	}, []);
 
-	const addUser = async (user: { username: string; password: string }) => {
+	const addUser = async (user: { username: string; password: string, location: string }) => {
 		try {
 			const userQuery = query(
 				collection(db, 'users'),
